@@ -1,0 +1,77 @@
+﻿# simple query
+query {
+  dimAccountEntity {
+    dimAccountQuery {
+      accountKey
+    }
+  }
+}
+
+# parallel query
+query {
+  a: dimAccountEntity {
+    dimAccountQuery {
+      accountKey
+    }
+  }
+  b: dimCustomerEntity {
+    dimCustomerQuery {
+      emailAddress
+    }
+  }
+}
+
+# query with relations
+query {
+  dimCustomerEntity {
+    dimCustomerQuery {
+      gender
+      geographyKeyNavigation {
+        ipAddressLocator
+      }
+    }
+  }
+}
+
+# query with parameter
+query {
+  dimProductEntity {
+    dimProductWithId(id: 50) {
+      productKey
+      color
+      listPrice
+      productLine
+      sizeRange
+    }
+  }
+}
+
+# muration section #
+
+# simple add mutation
+mutation {
+  dimAccountMutation {
+    addDimAccount(
+      addDimAccount: { accountType: "Assets", parentAccountKey: 1 }
+    ) {
+      id
+    }
+  }
+}
+
+# multi mutation
+mutation {
+  dimAccountMutation {
+    m1: addDimAccount(
+      addDimAccount: { accountType: "Assets", parentAccountKey: 1 }
+    ) {
+      id
+    }
+
+    m2: addDimAccount(
+      addDimAccount: { accountType: "Assets", parentAccountKey: 1 }
+    ) {
+      id
+    }
+  }
+}
